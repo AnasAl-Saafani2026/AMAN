@@ -29,7 +29,7 @@ echo "📦 المسار الحالي: $(pwd)"
 
 # 3. ترجمة المشروع
 echo "📦 جاري ترجمة المشروع..."
-javac *.java
+javac -cp "$SCRIPT_DIR/lib/jfiglet-0.0.9.jar:." *.java
 
 
 if [ $? -ne 0 ]; then
@@ -43,7 +43,8 @@ echo "✅ تمت الترجمة بنجاح"
 
 # 4. إنشاء ملف JAR
 echo "📦 جاري إنشاء ملف JAR..."
-jar cfe AMAN.jar Aman.Main *.class
+echo "Class-Path: lib/jfiglet-0.0.9.jar" > manifest.txt
+jar cfm AMAN.jar manifest.txt *.class
 
 
 echo "✅ تم إنشاء AMAN.jar"
@@ -55,12 +56,13 @@ sudo mkdir -p /opt/AMAN
 
 # 6. نسخ ملف JAR
 sudo cp AMAN.jar /opt/AMAN/
+sudo cp "$SCRIPT_DIR/lib/jfiglet-0.0.9.jar" /opt/AMAN/
 
 
 # 7. إنشاء سكربت التشغيل AMAN
 sudo tee /usr/local/bin/AMAN > /dev/null << 'EOF'
 #!/bin/bash
-java -jar /opt/AMAN/AMAN.jar
+java -cp "/opt/AMAN/AMAN.jar:/opt/AMAN/jfiglet-0.0.9.jar" Aman.Main
 EOF
 
 
