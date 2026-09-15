@@ -18,7 +18,12 @@ echo "✅ Java مثبتة"
 
 
 # 2. الانتقال إلى مجلد الكلاسات
-cd src/Aman
+cd aman.java/scr/Aman
+if [ ! -d "$(pwd)" ] || [ ! -f "Main.java"]; then
+echo "❌ لم يتم العثور على مجلد الكلاسات !"
+exit 1
+fi
+echo "📦 المسار الحالي: $(pwd)"
 
 
 # 3. ترجمة المشروع
@@ -52,8 +57,10 @@ sudo cp AMAN.jar /opt/AMAN/
 
 
 # 7. إنشاء سكربت التشغيل AMAN
-echo '#!/bin/bash
-java -jar /opt/AMAN/AMAN.jar "$@"' | sudo tee /usr/local/bin/AMAN > /dev/null
+sudo tee /usr/local/bin/AMAN > /dev/null << 'EOF'
+#!/bin/bash
+java -jar /opt/AMAN/AMAN.jar
+EOF
 
 
 # 8. إعطاء صلاحية التنفيذ
