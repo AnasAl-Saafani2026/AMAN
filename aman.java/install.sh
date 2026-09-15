@@ -18,7 +18,8 @@ echo "✅ Java مثبتة"
 
 
 # 2. الانتقال إلى مجلد الكلاسات
-cd aman.java/scr/Aman
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR/src/Aman"
 if [ ! -d "$(pwd)" ] || [ ! -f "Main.java"]; then
 echo "❌ لم يتم العثور على مجلد الكلاسات !"
 exit 1
