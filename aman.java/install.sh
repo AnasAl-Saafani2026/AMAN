@@ -19,8 +19,8 @@ echo "✅ Java مثبتة"
 
 # 2. الانتقال إلى مجلد الكلاسات
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR/src/Aman"
-if [ ! -f "Main.java"]; then
+cd "$SCRIPT_DIR/src"
+if [ ! -f "Aman/Main.java"]; then
 echo "❌ لم يتم العثور على مجلد الكلاسات !"
 exit 1
 fi
@@ -29,7 +29,7 @@ echo "📦 المسار الحالي: $(pwd)"
 
 # 3. ترجمة المشروع
 echo "📦 جاري ترجمة المشروع..."
-javac -cp "$SCRIPT_DIR/lib/jfiglet-0.0.9.jar:." *.java
+javac -cp "$SCRIPT_DIR/lib/jfiglet-0.0.9.jar:." Aman/*.java
 
 
 if [ $? -ne 0 ]; then
@@ -43,9 +43,11 @@ echo "✅ تمت الترجمة بنجاح"
 
 # 4. إنشاء ملف JAR
 echo "📦 جاري إنشاء ملف JAR..."
-echo "Class-Path: lib/jfiglet-0.0.9.jar" > manifest.txt
-jar cfm AMAN.jar manifest.txt *.class
-
+jar cfe AMAN.jar Aman.Main Aman/*.class
+if [ ! -f "AMAN.jar" ]; then
+    echo " ❌ فشل انشاء JAR!"
+    exit 1
+fi
 
 echo "✅ تم إنشاء AMAN.jar"
 
@@ -69,6 +71,7 @@ EOF
 # 8. إعطاء صلاحية التنفيذ
 sudo chmod +x /usr/local/bin/AMAN
 sudo chmod +x /opt/AMAN/AMAN.jar
+sudo chmod +x /opt/AMAN/jfiglet-0.0.9.jar
 
 
 # 9. التحقق
